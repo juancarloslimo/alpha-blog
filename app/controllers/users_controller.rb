@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
 
-  before_action :set_article, only: [:edit, :update]
+  before_action :set_article, only: [:show, :edit, :update]
+
+  def show
+    @articles = @user.articles
+  end
 
   def new
     @user = User.new
