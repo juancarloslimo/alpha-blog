@@ -3,11 +3,11 @@ class UsersController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update]
   
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 3)
   end
 
   def show
-    @articles = @user.articles
+    @articles = @user.articles.paginate(page: params[:page], per_page: 5)
   end
 
   def new
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:notice] = "Article was updated successfully"
-      redirect_to user_path(@user)
+      redirect_to user_path(@user) # I just could use @user instead of user_path(@user). Ruby is smart enough to know what I want to do.
     else
       render 'edit'
     end
