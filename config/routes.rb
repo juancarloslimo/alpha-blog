@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
   get 'users/index'
   root to: 'pages#home'
   get 'about', to: 'pages#about'
@@ -8,4 +11,7 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new'
   resources :users, except: [:new]
   # post 'users', to: 'users#create'
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'login', to: 'sessions#destroy'
 end
