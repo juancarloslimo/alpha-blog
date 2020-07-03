@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:notice] = "Article was updated successfully"
+      flash[:notice] = "Profile was updated successfully"
       redirect_to user_path(@user) # I just could use @user instead of user_path(@user). Ruby is smart enough to know what I want to do.
     else
       render 'edit'
@@ -43,9 +43,9 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    session[:user_id] = nil
+    session[:user_id] = nil if @user == current_user
     flash[:notice] = "Account and all associated articles succesfully deleted"
-    redirect_to root_path
+    redirect_to users_path
   end
 
   private 
@@ -58,8 +58,8 @@ class UsersController < ApplicationController
   end
 
   def require_same_user
-    if @user != current_user
-      flash[:alert] = "You can only edit your own article"
+    if @user != current_user && !current_user.admin?
+      flash[:alert] = "You can only edit or delete your own profile"
       redirect_to @user
     end
   end
