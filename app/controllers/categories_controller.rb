@@ -1,12 +1,12 @@
 class CategoriesController < ApplicationController
   before_action :require_admin, except: [:index, :show]
+  before_action :set_category, only: [:show, :edit, :update]
 
   def index
     @categories = Category.paginate(page: params[:page], per_page: 5)
   end
 
   def show
-    @category = Category.find(params[:id])
     @articles = @category.articles.paginate(page: params[:page], per_page: 5)
   end
 
@@ -28,6 +28,12 @@ class CategoriesController < ApplicationController
   end
 
   def update
+    if @category.update(category_params)
+      flash[:notice] = "Profile was updated successfully"
+      redirect_to category_path(@category) # I just could use @user instead of user_path(@user). Ruby is smart enough to know what I want to do.
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -39,6 +45,10 @@ class CategoriesController < ApplicationController
 
   def category_params
     params.require(:category).permit(:name)
+  end
+
+  def set_category
+    @category = Category.find(params[:id])
   end
 
   def require_admin
