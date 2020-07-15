@@ -30,7 +30,7 @@ class DownloadsController < ApplicationController
 
   def body
     Enumerator.new do |yielder|
-      20000.times do |num|
+      100.times do |num|
         sleep 0.05
         yielder << CSV.generate_line([num, "yay"])
       end
