@@ -1,8 +1,9 @@
 <h2 class="text-center mt-4"><%= @article.title %></h2>
+<%# <%= button_to "Download all", download_article_path(@article), method: :post, data: { "no-turbolink" => true } %>
 <div class="container">
   <div class="row justify-content-md-center">
-    <div class="col-8 mt-4">
-      <div class="card text-center shadow mb-5 bg-white rounded">
+    <div class="col-12 mt-4">
+      <div class="card text-center shadow mb-5 bg-white rounded p-3" id="card-information">
         <div class="card-header font-italic">
           by <%= @article.user.username %>
           <%= link_to gravatar_for(@article.user, size: 150), user_path(@article.user) %></h5>
@@ -15,10 +16,14 @@
         <div class="card-body">
           <div class="card-text text-left"> <%= simple_format(@article.description) %></div>
           <% if logged_in? && (@article.user == current_user || current_user.admin?) %>
-            <%= link_to 'Edit', edit_article_path(@article), class: "btn btn-outline-info" %>
-            <%= link_to 'Delete', article_path(@article), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-outline-danger" %>
+            <%= link_to 'Edit', edit_article_path(@article), class: "btn btn-outline-info mb-1" %>
+            <%= link_to 'Delete', article_path(@article), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-outline-danger mb-1" %>
           <% end %>
-          <%= link_to 'Return to Article listing', articles_path, class: "btn btn-outline-success" %>
+          <%= link_to 'Return to Article listing', articles_path, class: "btn btn-outline-success mb-1" %>
+          <% if @article.document.attachment != nil %>
+            <%= link_to 'View Attachment', @article.document, class: "btn btn-outline-info mb-1" %>
+            <%= link_to 'Download File', @article.document, download: '',class: "btn btn-outline-info mb-1" %>
+          <% end %>
         </div>
         <div class="card-footer text-muted">
           <small>Created <%= time_ago_in_words(@article.created_at) %> ago,

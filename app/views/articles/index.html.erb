@@ -1,14 +1,12 @@
-<h1 class="text-center mt-4">Listing all Articles</h1>
+<h1 class="text-center mt-4 mb-3">Listing all Articles</h1>
 <div class="container">
-  <div class="apple_pagination">
+  <div class="apple_pagination mb-4">
     <%= will_paginate @articles, :container => false %>
   </div>
 </div>
+<%= render 'article' %>
 <div class="container">
-  <%= render 'article' %>
-</div>
-<div class="container">
-  <div class="apple_pagination mb-4">
+  <div class="apple_pagination mt-2 mb-4">
     <%= will_paginate @articles, :container => false %>
   </div>
 </div>

@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   get 'download', to: 'pages#download'
   get 'downloads/download'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :articles
+  resources :articles do
+    member do
+      post :download, to: "zip_streaming#download"
+    end
+  end
   get 'signup', to: 'users#new'
   resources :users, except: [:new]
   # post 'users', to: 'users#create'
